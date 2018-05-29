@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Mass from '@/components/mass/Mass'
 import Church from '@/components/church/Church'
+import Login from '@/components/login/Login'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/iglesias',
       name: 'churches',
       component: Church
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })

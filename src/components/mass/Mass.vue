@@ -1,6 +1,6 @@
 <template>   
     <div class="masses-page">
-        <h1>Horarios de las misas</h1>
+        <b-breadcrumb :items="items"/>
         <div class="masses">
             <div class="mass card mb-3">
                 <div class="card-body">
@@ -39,6 +39,20 @@
 
 <script>
 export default{
+  data () {
+    return {
+      items: [
+        {
+          text: 'Inicio',
+          to: {name: 'home'}
+        },
+        {
+          text: 'Misas',
+          href: '#'
+        }
+      ]
+    }
+  }
 }
 </script>
 

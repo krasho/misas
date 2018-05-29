@@ -25,12 +25,25 @@ export default {
   --header_background_color: #978780;
   --footer_background_color: #665261;
   --link_color : #fff;
+  --link_breadcrumbs_color: #5C4A70;
 }
 
 body {
   color: #2c3e50;
   font-family: 'Arimo', Helvetica, Arial, sans-serif;  
   margin: 0;  
+
+  a {
+    color: var(--link_color);
+    padding-bottom: 0.5rem;
+    text-decoration: none;
+
+    &:hover{
+      color: var(--link_color);
+      text-decoration: none;
+    }
+  }
+  
 }
 
 #app {
@@ -38,16 +51,14 @@ body {
   display: flex;
   flex-direction: column;  
   justify-content: space-between;
-}
 
-a {
-  color: var(--link_color) !important;
-  padding-bottom: 0.5rem;
-  text-decoration: none !important;
+  .breadcrumb {
+    background-color: initial;
 
-  &:hover{
-     color: var(--link_color) !important;
-     text-decoration: none !important;
+    a {
+      color: var(--link_breadcrumbs_color);
+    }
   }
 }
+
 </style>

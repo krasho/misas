@@ -1,6 +1,6 @@
 <template>
     <div class="churches-page">
-        <h1>Iglesias</h1>
+        <b-breadcrumb :items="items"/>
         <b-card-group deck>
                 <b-card title="La Guadalupana"
                         img-src="https://picsum.photos/300/300/?image=41"
@@ -50,6 +50,20 @@
 
 <script>
 export default{
+  data () {
+    return {
+      items: [
+        {
+          text: 'Inicio',
+          to: {name: 'home'}
+        },
+        {
+          text: 'Iglesias',
+          href: '#'
+        }
+      ]
+    }
+  }
 }
 </script>
 
