@@ -1,54 +1,53 @@
 <template>
   <div id="app">
-    <header>
-      <span>Vue.js PWA</span>
-    </header>
-    <main>
-      <img src="./assets/logo.png" alt="Vue.js PWA">
+    <header-html></header-html>
+    <main>      
       <router-view></router-view>
     </main>
+    <footer-html></footer-html>    
   </div>
 </template>
 
 <script>
+import HeaderHtml from '@/components/Header'
+import FooterHtml from '@/components/Footer'
 export default {
+  components: {
+    'header-html': HeaderHtml,
+    'footer-html': FooterHtml
+  },
   name: 'app'
 }
 </script>
 
-<style>
+<style lang="scss">
+:root {
+  --header_background_color: #978780;
+  --footer_background_color: #665261;
+  --link_color : #fff;
+}
+
 body {
-  margin: 0;
+  color: #2c3e50;
+  font-family: 'Arimo', Helvetica, Arial, sans-serif;  
+  margin: 0;  
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;  
+  justify-content: space-between;
 }
 
-main {
-  text-align: center;
-  margin-top: 40px;
-}
+a {
+  color: var(--link_color);
+  padding-bottom: 0.5rem;
+  text-decoration: none;
 
-header {
-  margin: 0;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background-color: #35495E;
-  color: #ffffff;
-}
-
-header span {
-  display: block;
-  position: relative;
-  font-size: 20px;
-  line-height: 1;
-  letter-spacing: .02em;
-  font-weight: 400;
-  box-sizing: border-box;
-  padding-top: 16px;
+  &:hover{
+     color: var(--link_color);
+     text-decoration: none;
+  }
 }
 </style>
