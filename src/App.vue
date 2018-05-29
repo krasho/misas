@@ -41,12 +41,12 @@ body {
 }
 
 a {
-  color: var(--link_color);
+  color: var(--link_color) !important;
   padding-bottom: 0.5rem;
   text-decoration: none !important;
 
   &:hover{
-     color: var(--link_color);
+     color: var(--link_color) !important;
      text-decoration: none !important;
   }
 }
