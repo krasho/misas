@@ -43,11 +43,11 @@ body {
 a {
   color: var(--link_color);
   padding-bottom: 0.5rem;
-  text-decoration: none;
+  text-decoration: none !important;
 
   &:hover{
      color: var(--link_color);
-     text-decoration: none;
+     text-decoration: none !important;
   }
 }
 </style>
