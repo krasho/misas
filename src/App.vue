@@ -22,15 +22,17 @@ export default {
 
 <style lang="scss">
 :root {
-  --header_background_color: #978780;
+  --header_background_color: #618590;
   --footer_background_color: #665261;
   --link_color : #fff;
   --link_breadcrumbs_color: #5C4A70;
+  --btn-primary-color: #AA88A0;
+  --btn-primary-color-hover: #a590a2;
 }
 
 body {
   color: #2c3e50;
-  font-family: 'Arimo', Helvetica, Arial, sans-serif;  
+  font-family: 'Muli', Helvetica, Arial, sans-serif;  
   margin: 0;  
 
   a {
@@ -43,6 +45,26 @@ body {
       text-decoration: none;
     }
   }
+
+  .btn-primary {    
+    background-color: var(--btn-primary-color);
+    border-color: var(--btn-primary-color);
+
+    &:hover {
+       background-color: var(--btn-primary-color-hover);
+       border-color: var(--btn-primary-color-hover);
+    }
+  }
+
+  .btn-link {
+    color: var(--btn-primary-color);
+
+    &:hover {
+      color: var(--btn-primary-color-hover);
+    }
+  }
+
+  
   
 }
 
