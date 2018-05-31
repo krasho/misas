@@ -1,6 +1,11 @@
 <template>
     <div class="churches-page">
         <b-breadcrumb :items="items"/>
+        <div class="actions">
+            <div class="action">
+                <router-link class="btn btn-primary" :to="{name: 'create-church'}">Nueva Iglesia</router-link>
+            </div>            
+        </div>
         <b-card-group deck>
                 <b-card title="La Guadalupana"
                         img-src="https://picsum.photos/300/300/?image=41"
@@ -72,14 +77,7 @@ export default{
 @import 'node_modules/bootstrap/scss/_variables.scss';
 @import 'node_modules/bootstrap/scss/mixins/_breakpoints.scss';
 
-.churches-page {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;     
-
-    @include media-breakpoint-down(sm) {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-    }    
+.actions {
+    margin-bottom: 1rem;
 }
 </style>

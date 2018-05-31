@@ -18,10 +18,13 @@
                                 <router-link :to="{name: 'churches'}">IGLESIAS</router-link>
                             </li>
 
-                            <li class="option login">
+                            <li class="option login" v-if="this.$store.getters.isAutheticated !== true">
                                 <router-link :to="{name: 'login'}">Login</router-link>
                             </li>
 
+                            <li class="option login" v-else>
+                                <router-link to="#">Logout</router-link>
+                            </li>
                         </ul> 
 
 
@@ -56,6 +59,7 @@ export default{
 .header {
     background-color: var(--header_background_color);
     color: #fff;
+    grid-area: header;
 
     .container-fluid {
         font-size: 1.5rem;

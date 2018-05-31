@@ -5,12 +5,16 @@ import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import store from './store'
+import VeeValidate from 'vee-validate'
+import Notifications from 'vue-notification'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
+Vue.use(VeeValidate)
+Vue.use(Notifications)
 
 /* eslint-disable no-new */
 new Vue({

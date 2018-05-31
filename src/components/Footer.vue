@@ -14,9 +14,10 @@ export default{
 </script>
 
 <style lang="scss">
-.footer-container {    
+.footer-container {        
     background-color: var(--footer_background_color);
     color: #fff;
+    grid-area: footer;
     &__description {        
         padding: 2rem;
     }

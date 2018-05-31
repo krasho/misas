@@ -72,6 +72,12 @@ export default{
         'email': this.form.email,
         'password': this.form.password
       })
+
+      if (this.$store.getters.isAutheticated === true) {
+        this.$router.push('/dashboard')
+      } else {
+        // Aqui poner el mensaje que los datos son incorrectos
+      }
     }
   }
 }

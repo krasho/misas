@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <header-html></header-html>
-    <main>      
+    <main class="main">
+       <notifications group="messages" />      
       <router-view></router-view>
     </main>
     <footer-html></footer-html>    
@@ -21,6 +22,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import 'node_modules/bootstrap/scss/_functions.scss';
+@import 'node_modules/bootstrap/scss/_variables.scss';
+@import 'node_modules/bootstrap/scss/mixins/_breakpoints.scss';
+
 :root {
   --header_background_color: #618590;
   --footer_background_color: #665261;
@@ -28,6 +33,7 @@ export default {
   --link_breadcrumbs_color: #5C4A70;
   --btn-primary-color: #AA88A0;
   --btn-primary-color-hover: #a590a2;
+  --purple-color: #665261;
 }
 
 body {
@@ -63,19 +69,37 @@ body {
       color: var(--btn-primary-color-hover);
     }
   }
+  
 
+  .main {
+    grid-area: main;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 1200px;
+    width: 100%;
+
+    @include media-breakpoint-down(sm) {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+    }    
+    
+  }
   
   
 }
 
 #app {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;  
-  justify-content: space-between;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 100px auto 100px;
+    grid-template-areas: 'header'
+                         'main'
+                         'footer';   
 
   .breadcrumb {
     background-color: initial;
+    padding-left: 0;
 
     a {
       color: var(--link_breadcrumbs_color);

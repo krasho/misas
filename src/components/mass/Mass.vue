@@ -57,11 +57,7 @@ export default{
 </script>
 
 <style lang="scss">
-.masses-page {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px; 
-    
+.masses-page {    
     .mass {        
       box-shadow: 0 1px 8px 0 rgba(0,0,0,0.08);
 
