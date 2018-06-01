@@ -71,13 +71,18 @@ export default{
       this.$store.dispatch('login', {
         'email': this.form.email,
         'password': this.form.password
+      }).then(() => {
+        if (this.$store.getters.isAutheticated === true) {
+          this.$router.push('/dashboard')
+        } else {
+          this.$notify({
+            group: 'messages',
+            title: 'Error',
+            text: 'Datos Incorrectos. Por revisa tus claves de acceso',
+            type: 'error'
+          })
+        }
       })
-
-      if (this.$store.getters.isAutheticated === true) {
-        this.$router.push('/dashboard')
-      } else {
-        // Aqui poner el mensaje que los datos son incorrectos
-      }
     }
   }
 }

@@ -15,6 +15,7 @@ export default new Vuex.Store({
     churches: ChurchModule
   },
   state: {
+    pending: null,
     isLoggedIn: !!localStorage.getItem('token')
   },
   mutations: {

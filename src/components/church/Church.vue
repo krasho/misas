@@ -7,60 +7,53 @@
             </div>            
         </div>
         <b-card-group deck>
-                <b-card title="La Guadalupana"
-                        img-src="https://picsum.photos/300/300/?image=41"
-                        img-alt="Img"
-                        img-top>
+            <b-card no-body v-for="church in churchesList" :key="church.id">
+                
+                <b-img-lazy lazy :src="church.photo | validatePhoto" alt="Img" class="card-img-top" />
+
+                <b-card-body>
+                    <h4>{{church.name}}</h4>    
                     <p class="card-text">
-                        Dirección: Calle Madero s/n
+                        Dirección: {{church.address}}
                     </p>
                     <p class="card-text">
-                        Párroco: Jesús
+                        Párroco: {{church.priest}}
                     </p>                    
                     <div slot="footer">
-                        <small class="text-muted">Contacto: 983 000 0000</small>
+                        <small class="text-muted">Contacto: {{church.phone}}</small>
+                    </div>                    
+                </b-card-body>     
+                <b-card-footer>
+                    <div class="footer-information">
+                        <div>
+                            Contacto: {{church.phone}}
+                        </div>
+
+                        <div class="action">
+                            <router-link to="#" class="btn btn-primary">
+                                Editar
+                            </router-link>
+                            
+                        </div>
                     </div>
-                </b-card>
-                <b-card title="Sagrado Corazón"
-                        img-src="https://picsum.photos/300/300/?image=41"
-                        img-alt="Img"
-                        img-top>
-                    <p class="card-text">
-                        Dirección: Conocida
-                    </p>
-                    <p class="card-text">
-                        Párroco: Santiago
-                    </p>                    
-                    <div slot="footer">
-                        <small class="text-muted">Contacto: 983 000 0000</small>
-                    </div>
-                </b-card>
-                <b-card title="San Judas"
-                        img-src="https://picsum.photos/300/300/?image=41"
-                        img-alt="Img"
-                        img-top>
-                    <p class="card-text">
-                        Dirección: Conocida
-                    </p>
-                    <p class="card-text">
-                        Párroco: Raúl
-                    </p>                    
-                    <div slot="footer">
-                        <small class="text-muted">Contacto: 983 000 0000</small>
-                    </div>
-                </b-card>
+                </b-card-footer>                       
+            </b-card>            
         </b-card-group>
     </div>
 </template>
 
 <script>
-export default{
+import { mapState } from 'vuex'
+export default {
+  mounted () {
+    this.$store.dispatch('churches/loadChurches')
+  },
   data () {
     return {
       items: [
         {
           text: 'Inicio',
-          to: {name: 'home'}
+          to: { name: 'home' }
         },
         {
           text: 'Iglesias',
@@ -68,16 +61,48 @@ export default{
         }
       ]
     }
+  },
+  computed: {
+    ...mapState(
+      'churches', ['churchesList']
+    )
+  },
+
+  filters: {
+    validatePhoto (value) {
+      if (!value) {
+        return 'https://picsum.photos/300/300/?image=41'
+      }
+
+      return value
+    }
   }
 }
 </script>
 
 <style lang="scss">
-@import 'node_modules/bootstrap/scss/_functions.scss';
-@import 'node_modules/bootstrap/scss/_variables.scss';
-@import 'node_modules/bootstrap/scss/mixins/_breakpoints.scss';
+@import "node_modules/bootstrap/scss/_functions.scss";
+@import "node_modules/bootstrap/scss/_variables.scss";
+@import "node_modules/bootstrap/scss/mixins/_breakpoints.scss";
 
-.actions {
+.churches-page {
+  .actions {
     margin-bottom: 1rem;
+  }
+  
+  .card-deck {
+    justify-content: space-between;
+
+    .card {
+        flex: initial;
+        margin-bottom: 1rem;
+        
+        .footer-information {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }    
+  }
 }
 </style>

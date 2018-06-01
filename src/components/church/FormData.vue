@@ -31,7 +31,7 @@
                               label-for="direction">
                   <b-form-input id="direccion"
                               type="text"
-                              v-model="form.direction"                            
+                              v-model="form.address"                            
                               placeholder="Ingresa la dirección">
                   </b-form-input>
               </b-form-group>        
@@ -82,7 +82,7 @@ export default{
       form: {
         name: null,
         email: null,
-        direction: null,
+        address: null,
         priest: null,
         phone: null,
         file: null
@@ -95,17 +95,57 @@ export default{
     }
   },
   methods: {
+    resetFields () {
+      this.form.name = ''
+      this.form.email = ''
+      this.form.address = ''
+      this.form.priest = ''
+      this.form.phone = ''
+    },
+
+    insert () {
+      this.$store.dispatch('insertChurch', {
+        'name': this.form.name,
+        'email': this.form.email,
+        'address': this.form.address,
+        'priest': this.form.priest,
+        'phone': this.form.phone
+      }).then(newChurch => {
+        this.$notify({
+          group: 'messages',
+          title: 'Registro Guardado!!!',
+          text: 'Iglesia guardada',
+          type: 'success'
+        })
+        this.resetFields()
+      })
+    },
+
+    update () {
+      this.$store.dispatch('updateChurch', {
+        'name': this.form.name,
+        'email': this.form.email,
+        'address': this.form.address,
+        'priest': this.form.priest,
+        'phone': this.form.phone,
+        'id': this.form.id
+      }).then(church => {
+        this.$notify({
+          group: 'messages',
+          title: 'Registro Guardado!!!',
+          text: 'Iglesia guardada',
+          type: 'success'
+        })
+
+        this.resetFields()
+      })
+    },
+
     onSubmit () {
       this.$validator.validateAll().then(res => {
         if (res) {
           if (this.actionToExecute === 'insert') {
-            this.$store.dispatch('insertChurch', {
-              'name': this.form.name,
-              'email': this.form.email,
-              'direction': this.form.direaction,
-              'priest': this.form.priest,
-              'phone': this.form.phone
-            })
+            this.insert()
           }
         } else {
           this.$notify({
