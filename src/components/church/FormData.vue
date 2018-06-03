@@ -1,13 +1,13 @@
 <template>
   <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 form-data">
-    <b-form @submit.prevent="onSubmit">
+    <b-form @submit.prevent="onSubmit" enctype="multipart/form-data"> 
       <b-card header="Ingresa los datos">        
               <b-form-group id="namelabel"
                               label="Nombre:"
                               label-for="Name">
                   <b-form-input id="name"
                               type="text"
-                              v-model="form.name"                            
+                              v-model="church.name"                            
                               v-validate="'required'"
                               data-vv-name="name"
                               placeholder="Ingresa el nombre">
@@ -20,7 +20,7 @@
                               label-for="email">
                   <b-form-input id="email"
                               type="email"
-                              v-model="form.email"                            
+                              v-model="church.email"                            
                               placeholder="Ingresa el email">
                   </b-form-input>
               </b-form-group>        
@@ -31,7 +31,7 @@
                               label-for="direction">
                   <b-form-input id="direccion"
                               type="text"
-                              v-model="form.address"                            
+                              v-model="church.address"                            
                               placeholder="Ingresa la dirección">
                   </b-form-input>
               </b-form-group>        
@@ -41,7 +41,7 @@
                               label-for="priest">
                   <b-form-input id="priest"
                               type="text"
-                              v-model="form.priest"                            
+                              v-model="church.priest"                            
                               placeholder="Ingresa el nombre del sacerdote">
                   </b-form-input>
               </b-form-group>        
@@ -51,7 +51,7 @@
                               label-for="phone">
                   <b-form-input id="phone"
                               type="text"
-                              v-model="form.phone"                            
+                              v-model="church.phone"                            
                               placeholder="Ingresa el teléfono">
                   </b-form-input>
               </b-form-group>        
@@ -60,56 +60,78 @@
                               label="Foto:"
                               label-for="photo">
 
-                  <b-form-file v-model="form.file" class="mt-3"></b-form-file>
-                  <div class="mt-3">Selected file: {{form.file && form.file.name}}</div>
+              <b-form-file v-model="church.file" class="mt-3" @change="onFileChanged"></b-form-file>
+              <div class="mt-3">Selected file: {{church.file && church.file.name}}</div>
                   
               </b-form-group>                                
       </b-card>                
 
-      <b-button type="submit" class="btn btn-primary btn-save">Guardar</b-button>                                    
+      <div class="actions">
+        <div class="action">
+           <b-button type="submit" class="btn btn-primary btn-save">Guardar</b-button>                                    
+        </div>
+
+        <div class="action">
+           <b-button @click="deleteChurch(church.id)" type="button" class="btn btn-danger btn-delete">Borrar</b-button>                                    
+        </div>
+
+      </div>
+      
     </b-form>
   </div>    
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default{
   props: [
     'idSelected',
     'actionToExecute'
   ],
+
+  computed: {
+    ...mapState(
+      'churches', ['church']
+    )
+  },
+
   data () {
     return {
-      form: {
-        name: null,
-        email: null,
-        address: null,
-        priest: null,
-        phone: null,
-        file: null
-      }
+      'selectedFile': null
     }
   },
-  mounted () {
+
+  created () {
     if (this.idSelected) {
-      // traer los datos del ID seleccionado
+      this.$store.dispatch('churches/loadChurchByID', {'id': this.idSelected})
     }
+  },
+  watch: {
+    // 'id': this.$store.dispatch('churches/loadChurchByID', {'id': this.id})
   },
   methods: {
     resetFields () {
-      this.form.name = ''
-      this.form.email = ''
-      this.form.address = ''
-      this.form.priest = ''
-      this.form.phone = ''
+      this.church.name = ''
+      this.church.email = ''
+      this.church.address = ''
+      this.church.priest = ''
+      this.church.phone = ''
+    },
+
+    uploadFile () {
+      const formData = new FormData()
+      formData.append('file', this.selectedFile, this.selectedFile.name)
+      return formData
     },
 
     insert () {
       this.$store.dispatch('insertChurch', {
-        'name': this.form.name,
-        'email': this.form.email,
-        'address': this.form.address,
-        'priest': this.form.priest,
-        'phone': this.form.phone
+        'name': this.church.name,
+        'email': this.church.email,
+        'address': this.church.address,
+        'priest': this.church.priest,
+        'phone': this.church.phone,
+        'file': this.uploadFile()
       }).then(newChurch => {
         this.$notify({
           group: 'messages',
@@ -122,13 +144,14 @@ export default{
     },
 
     update () {
-      this.$store.dispatch('updateChurch', {
-        'name': this.form.name,
-        'email': this.form.email,
-        'address': this.form.address,
-        'priest': this.form.priest,
-        'phone': this.form.phone,
-        'id': this.form.id
+      this.$store.dispatch('churches/updateChurch', {
+        'name': this.church.name,
+        'email': this.church.email,
+        'address': this.church.address,
+        'priest': this.church.priest,
+        'phone': this.church.phone,
+        'file': this.uploadFile(),
+        'id': this.idSelected
       }).then(church => {
         this.$notify({
           group: 'messages',
@@ -146,6 +169,9 @@ export default{
         if (res) {
           if (this.actionToExecute === 'insert') {
             this.insert()
+          } else {
+            this.update()
+            this.$router.push({name: 'churches'})
           }
         } else {
           this.$notify({
@@ -156,6 +182,18 @@ export default{
           })
         }
       })
+    },
+
+    onFileChanged (event) {
+      this.selectedFile = event.target.files[0]
+    },
+
+    deleteChurch (idToDelete) {
+      this.$store.dispatch('churches/deleteChurchByID', {
+        'id': idToDelete
+      })
+
+      this.$router.push({name: 'churches'})
     }
   }
 }
@@ -169,7 +207,16 @@ export default{
      margin-top: 1rem;
      margin-bottom: 1rem;
    }
-    
+   
+   .actions {
+     display: flex;
+
+     .btn-delete {
+       margin-bottom: 1rem;
+       margin-top: 1rem;
+       margin-left: 1rem;
+     }
+   }
 }
 </style>
 

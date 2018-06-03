@@ -30,10 +30,9 @@
                         </div>
 
                         <div class="action">
-                            <router-link to="#" class="btn btn-primary">
+                            <router-link :to="{name: 'edit-church', params:{id: church.id}}" class="btn btn-primary">
                                 Editar
-                            </router-link>
-                            
+                            </router-link>                            
                         </div>
                     </div>
                 </b-card-footer>                       
@@ -96,6 +95,7 @@ export default {
     .card {
         flex: initial;
         margin-bottom: 1rem;
+        width: 300px;
         
         .footer-information {
             display: flex;

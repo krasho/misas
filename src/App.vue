@@ -56,10 +56,12 @@ body {
     background-color: var(--btn-primary-color);
     border-color: var(--btn-primary-color);
 
-    &:hover {
+    &:hover,
+    &:focus,
+    &:active {
        background-color: var(--btn-primary-color-hover);
        border-color: var(--btn-primary-color-hover);
-    }
+    }    
   }
 
   .btn-link {

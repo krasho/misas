@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Mass from '@/components/mass/Mass'
 import Church from '@/components/church/Church'
 import CreateChurch from '@/components/church/CreateChurch'
+import EditChurch from '@/components/church/EditChurch'
 import Login from '@/components/login/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
 
@@ -40,6 +41,12 @@ export default new Router({
       path: '/iglesias/nuevo',
       name: 'create-church',
       component: CreateChurch
+    },
+    {
+      path: '/iglesias/edit/:id',
+      name: 'edit-church',
+      component: EditChurch,
+      props: true
     }
   ]
 })

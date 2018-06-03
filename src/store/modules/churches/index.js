@@ -6,7 +6,8 @@ export default {
   namespaced: true,
   state: {
     churchWasCreated: false,
-    churchesList: []
+    churchesList: [],
+    church: {}
   },
   mutations: {
     createdChurch (state, newChurch) {
@@ -19,8 +20,18 @@ export default {
 
     getChurches (state) {
       return state.churchesList
-    }
+    },
 
+    setChurch (state, church) {
+      state.church = church
+    },
+
+    removeChurch (state, church) {
+      let index = state.churchesList.indexOf(church.id)
+      state.churchesList.splice(index, 1)
+
+      console.log(state.churchesList)
+    }
   },
   actions: {
     insertChurch (context, newChurch) {
@@ -42,10 +53,49 @@ export default {
         })
     },
 
+    updateChurch (context, church) {
+      axios.put(`api/churches/${church.id}`, {
+        'church': {
+          'name': church.name,
+          'address': church.address,
+          'phone': church.phone,
+          'priest': church.priest,
+          'photo': church.photo,
+          'email': church.email
+        }
+      })
+        .then((response) => {
+          context.commit('setChurches', church)
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
     loadChurches (context) {
       axios.get('api/churches')
         .then((response) => {
           context.commit('setChurches', response.data)
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
+    loadChurchByID (context, church) {
+      axios.get('api/churches/' + church.id)
+        .then((response) => {
+          context.commit('setChurch', response.data)
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
+    deleteChurchByID (context, church) {
+      axios.delete(`api/churches/${church.id}`)
+        .then((response) => {
+          context.commit('removeChurch', church)
         })
         .catch((error) => {
           return error
