@@ -56,14 +56,14 @@
                   </b-form-input>
               </b-form-group>        
 
-              <b-form-group id="photo"
+              <!--<b-form-group id="photo"
                               label="Foto:"
                               label-for="photo">
 
               <b-form-file v-model="church.file" class="mt-3" @change="onFileChanged"></b-form-file>
               <div class="mt-3">Selected file: {{church.file && church.file.name}}</div>
                   
-              </b-form-group>                                
+              </b-form-group>-->
       </b-card>                
 
       <div class="actions">
@@ -71,7 +71,7 @@
            <b-button type="submit" class="btn btn-primary btn-save">Guardar</b-button>                                    
         </div>
 
-        <div class="action">
+        <div class="action" v-show="idSelected">
            <b-button @click="deleteChurch(church.id)" type="button" class="btn btn-danger btn-delete">Borrar</b-button>                                    
         </div>
 
@@ -125,13 +125,12 @@ export default{
     },
 
     insert () {
-      this.$store.dispatch('insertChurch', {
+      this.$store.dispatch('churches/insertChurch', {
         'name': this.church.name,
         'email': this.church.email,
         'address': this.church.address,
         'priest': this.church.priest,
-        'phone': this.church.phone,
-        'file': this.uploadFile()
+        'phone': this.church.phone
       }).then(newChurch => {
         this.$notify({
           group: 'messages',
@@ -150,7 +149,6 @@ export default{
         'address': this.church.address,
         'priest': this.church.priest,
         'phone': this.church.phone,
-        'file': this.uploadFile(),
         'id': this.idSelected
       }).then(church => {
         this.$notify({
@@ -186,14 +184,6 @@ export default{
 
     onFileChanged (event) {
       this.selectedFile = event.target.files[0]
-    },
-
-    deleteChurch (idToDelete) {
-      this.$store.dispatch('churches/deleteChurchByID', {
-        'id': idToDelete
-      })
-
-      this.$router.push({name: 'churches'})
     }
   }
 }

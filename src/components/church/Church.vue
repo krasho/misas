@@ -7,35 +7,20 @@
             </div>            
         </div>
         <b-card-group deck>
-            <b-card no-body v-for="church in churchesList" :key="church.id">
-                
-                <b-img-lazy lazy :src="church.photo | validatePhoto" alt="Img" class="card-img-top" />
+            <b-card no-body v-for="church in churchesList" :key="church.id">                
+               <!-- <b-img-lazy lazy :src="church.photo | validatePhoto" alt="Img" class="card-img-top" />-->
 
                 <b-card-body>
                     <h4>{{church.name}}</h4>    
+                    <hr>
                     <p class="card-text">
                         Dirección: {{church.address}}
                     </p>
                     <p class="card-text">
                         Párroco: {{church.priest}}
                     </p>                    
-                    <div slot="footer">
-                        <small class="text-muted">Contacto: {{church.phone}}</small>
-                    </div>                    
-                </b-card-body>     
-                <b-card-footer>
-                    <div class="footer-information">
-                        <div>
-                            Contacto: {{church.phone}}
-                        </div>
-
-                        <div class="action">
-                            <router-link :to="{name: 'edit-church', params:{id: church.id}}" class="btn btn-primary">
-                                Editar
-                            </router-link>                            
-                        </div>
-                    </div>
-                </b-card-footer>                       
+                </b-card-body>
+                <church-actions :churchPhone="church.phone" :idSelected="church.id"></church-actions>                           
             </b-card>            
         </b-card-group>
     </div>
@@ -43,7 +28,12 @@
 
 <script>
 import { mapState } from 'vuex'
+import ChurchActions from '@/components/church/ChurchActions'
 export default {
+  components: {
+    'church-actions': ChurchActions
+  },
+
   mounted () {
     this.$store.dispatch('churches/loadChurches')
   },
@@ -58,7 +48,8 @@ export default {
           text: 'Iglesias',
           href: '#'
         }
-      ]
+      ],
+      showChurchActions: null
     }
   },
   computed: {
@@ -90,17 +81,50 @@ export default {
   }
   
   .card-deck {
-    justify-content: space-between;
-
     .card {
         flex: initial;
         margin-bottom: 1rem;
-        width: 300px;
+        position: relative;
+        width: 300px;        
         
         .footer-information {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
+
+            .church-button-actions {
+                &:hover {
+                  cursor: pointer;                    
+                }
+            }
+        }
+
+        .church-actions {
+            background-color: #fff;
+            border: 1px solid rgba(0, 0, 0, 0.125);   
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 1rem;            
+            position: absolute;
+            left: 0;         
+            width: 300px;
+            z-index: 100;
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            .church-actions__link {
+                color: var(--link_breadcrumbs_color);
+
+                &:hover {
+                  color: var(--header_background_color);
+                }
+            }
+
         }
     }    
   }
