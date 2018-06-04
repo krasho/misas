@@ -23,8 +23,8 @@
                     </router-link>
                 </li>
                 <li>
-                    <router-link class="church-actions__link" to="#">
-                        Agregar Misas
+                    <router-link class="church-actions__link" :to="{name: 'mass-admin', params: {id: idSelected}}">
+                        Misas
                     </router-link>
                 </li>                        
                 <li>

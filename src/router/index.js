@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Mass from '@/components/mass/Mass'
 import Church from '@/components/church/Church'
 import CreateChurch from '@/components/church/CreateChurch'
 import EditChurch from '@/components/church/EditChurch'
 import Login from '@/components/login/Login'
 import Dashboard from '@/components/dashboard/Dashboard'
+import Mass from '@/components/mass/Mass'
+import MassAdmin from '@/components/mass/MassAdmin'
 
 Vue.use(Router)
 
@@ -21,6 +22,12 @@ export default new Router({
       path: '/misas',
       name: 'mass',
       component: Mass
+    },
+    {
+      path: '/iglesia/:id/misas',
+      name: 'mass-admin',
+      component: MassAdmin,
+      props: true
     },
     {
       path: '/iglesias',

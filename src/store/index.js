@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import ChurchModule from '@/store/modules/churches'
+import MassModule from '@/store/modules/masses'
 
 const LOGIN = 'LOGIN'
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
@@ -12,7 +13,8 @@ Vue.use(Vuex)
 axios.defaults.baseURL = 'http://localhost:3000'
 export default new Vuex.Store({
   modules: {
-    churches: ChurchModule
+    churches: ChurchModule,
+    masses: MassModule
   },
   state: {
     pending: null,
