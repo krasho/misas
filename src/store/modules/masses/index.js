@@ -9,19 +9,41 @@ export default {
   },
 
   mutations: {
+    setMasses (state, massesList) {
+      let masses = massesList[0].schedule.split(',')
+      state.massesList = masses
+    },
+
+    setMass (state, mass) {
+      console.log(mass)
+      // state.massesList = mass
+    },
+
+    getMasses (state) {
+      return state.massesList
+    }
   },
 
   actions: {
     insertMasses (context, newMasses) {
-      console.log(newMasses)
-      axios.post('api/churches', {
-        'masses': {
-          'cuhrch': newMasses.church_id,
+      axios.post('api/masses', {
+        'Mass': {
+          'church_id': newMasses.church_id,
           'schedule': newMasses.schedule
         }
       })
         .then((response) => {
           // context.commit('createdChurch', newMasses)
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
+    loadMasses (context, Mass) {
+      axios.get(`api/masses/bychurch/${Mass.church_id}`)
+        .then((response) => {
+          context.commit('setMasses', response.data)
         })
         .catch((error) => {
           return error

@@ -19,11 +19,10 @@
         <div class="hours" v-for="i in 17" :key="i">
             <div class="hour" v-for="j in 7" :key="j">
                 
-                <b-form-checkbox :id="`${i}_${j}`" 
-                                :name="`${i}_${j}`"   
-                                :value="`${i}_${j}`"
-                                unchecked-value="0"
-                                v-model="selectedCheckboxes">
+                <b-form-checkbox :id="`${i}_${j+6}`" 
+                                :name="`${i}_${j+6}`"   
+                                :value="`${i}_${j+6}`"
+                                v-model= "selectedCheckboxes">
                     
                     {{i+6}}:00 - {{i+7}}:00
                 </b-form-checkbox>             
@@ -34,13 +33,16 @@
         <div class="action">
            <b-button type="submit" class="btn btn-primary btn-save">Guardar</b-button>                                    
         </div>
-      </div>
-
+      </div>      
       </b-form>
   </div>    
 </template>
 }}
 <script>
+import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+
 export default {
   props: [
     'id'
@@ -61,15 +63,37 @@ export default {
           href: '#'
         }
       ],
+
       selectedCheckboxes: []
     }
+  },
+
+  mounted () {
+    axios.get(`api/masses/bychurch/${this.id}`)
+      .then((response) => {
+        this.selectedCheckboxes = response.data[0].schedule.split(',')
+      })
+      .catch(() => {
+        this.$notify({
+          group: 'messages',
+          title: 'Error',
+          text: 'Hubo un error mientras se cargaba la información',
+          type: 'error'
+        })
+      })
+  },
+
+  created () {
+    this.$store.dispatch('masses/loadMasses', {
+      'church_id': this.id
+    })
   },
 
   methods: {
     onSubmit () {
       this.$store.dispatch('masses/insertMasses', {
-        'church': this.id,
-        'schedule': this.selectedCheckboxes
+        'church_id': this.id,
+        'schedule': this.selectedCheckboxes.join()
       }).then(newChurch => {
         this.$notify({
           group: 'messages',
@@ -78,7 +102,12 @@ export default {
           type: 'success'
         })
       })
+    },
+
+    onUpdateMassesList (value) {
+      console.log(value)
     }
+
   }
 }
 </script>

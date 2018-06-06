@@ -29,8 +29,6 @@ export default {
     removeChurch (state, church) {
       let index = state.churchesList.indexOf(church.id)
       state.churchesList.splice(index, 1)
-
-      console.log(state.churchesList)
     }
   },
   actions: {
