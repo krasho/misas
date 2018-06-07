@@ -10,7 +10,8 @@ const LOGOUT = 'LOGOUT'
 
 Vue.use(Vuex)
 
-axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.baseURL = process.env.BASE_URL
+
 export default new Vuex.Store({
   modules: {
     churches: ChurchModule,
