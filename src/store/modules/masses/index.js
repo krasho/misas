@@ -5,7 +5,8 @@ axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
 export default {
   namespaced: true,
   state: {
-    massesList: []
+    massesList: [],
+    massesListByDate: []
   },
 
   mutations: {
@@ -21,6 +22,10 @@ export default {
 
     getMasses (state) {
       return state.massesList
+    },
+
+    setMassesListByDate (state, massesList) {
+      state.massesListByDate = massesList
     }
   },
 
@@ -44,6 +49,16 @@ export default {
       axios.get(`api/masses/bychurch/${Mass.church_id}`)
         .then((response) => {
           context.commit('setMasses', response.data)
+        })
+        .catch((error) => {
+          return error
+        })
+    },
+
+    loadMassesByDate (context, date) {
+      axios.get(`api/masses/bydate/${date.year}/${date.month}/${date.day}`)
+        .then((response) => {
+          context.commit('setMassesListByDate', response.data)
         })
         .catch((error) => {
           return error

@@ -1,6 +1,7 @@
 <template>
   <div class="page-admin-mass">
       <b-breadcrumb :items="items"/>
+      <h2>Iglesia: {{churchName}}</h2>
       <div class="days">
           <div class="day">
               <span class="day-name">
@@ -19,9 +20,9 @@
         <div class="hours" v-for="i in 17" :key="i">
             <div class="hour" v-for="j in 7" :key="j">
                 
-                <b-form-checkbox :id="`${i}_${j+6}`" 
-                                :name="`${i}_${j+6}`"   
-                                :value="`${i}_${j+6}`"
+                <b-form-checkbox :id="`${j}_${i+6}`" 
+                                :name="`${j}_${i+6}`"   
+                                :value="`${j}_${i+6}`"
                                 v-model= "selectedCheckboxes">
                     
                     {{i+6}}:00 - {{i+7}}:00
@@ -64,16 +65,22 @@ export default {
         }
       ],
 
-      selectedCheckboxes: []
+      selectedCheckboxes: [],
+      churchName: null
     }
   },
 
   mounted () {
     axios.get(`api/masses/bychurch/${this.id}`)
       .then((response) => {
-        this.selectedCheckboxes = response.data[0].schedule.split(',')
+        this.churchName = response.data.church_name
+
+        if (response.data.masses[0]) {
+          this.selectedCheckboxes = response.data.masses[0].schedule.split(',')
+        }
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error)
         this.$notify({
           group: 'messages',
           title: 'Error',
