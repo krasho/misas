@@ -2,7 +2,7 @@
     <div class="churches-page">
         <b-breadcrumb :items="items"/>
         <div class="actions">
-            <div class="action">
+            <div class="action" v-show="this.$store.getters.isAutheticated">
                 <router-link class="btn btn-primary" :to="{name: 'create-church'}">Nueva Iglesia</router-link>
             </div>            
         </div>
