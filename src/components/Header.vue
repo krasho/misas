@@ -23,7 +23,9 @@
                             </li>
 
                             <li class="option login" v-else>
-                                <router-link to="#">Logout</router-link>
+                                <span @click="onLogout" class="logout">
+                                    Logout
+                                </span>
                             </li>
                         </ul> 
 
@@ -45,7 +47,14 @@
 </template>
 
 <script>
-export default{
+export default {
+  methods: {
+    onLogout () {
+      this.$store.dispatch('logout').then(() => {
+        this.$router.push('/misas')
+      })
+    }
+  }
 }
 </script>
 
@@ -120,7 +129,13 @@ export default{
 
                     &:nth-child(1) {
                         padding-left: 0px;
-                    }                    
+                    }       
+
+                    .logout {
+                      &:hover {
+                        cursor: pointer;
+                      }
+                    }             
                 }
                 
                 .login {

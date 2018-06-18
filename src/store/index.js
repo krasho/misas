@@ -11,7 +11,7 @@ const LOGOUT = 'LOGOUT'
 Vue.use(Vuex)
 
 axios.defaults.baseURL = process.env.BASE_URL
-
+axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
 export default new Vuex.Store({
   modules: {
     churches: ChurchModule,
@@ -49,6 +49,14 @@ export default new Vuex.Store({
         .then((response) => {
           context.commit(LOGIN_SUCCESS)
           localStorage.setItem('token', response.data.access_token)
+        })
+    },
+
+    logout (context) {
+      axios.post('/oauth/revoke')
+        .then((response) => {
+          localStorage.setItem('token', '')
+          context.commit(LOGOUT)
         })
     }
   }
